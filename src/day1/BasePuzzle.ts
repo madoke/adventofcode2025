@@ -16,22 +16,27 @@ export abstract class BasePuzzle {
 			instruction.direction === Direction.Left
 				? this.dialState.position - instruction.distance
 				: this.dialState.position + instruction.distance;
-		const initialPosition = this.dialState.position;
 
-		if (nextPosition === 0) {
-			timesPastZero += 1;
-		} else if (nextPosition > 99) {
-			const quotient = Math.floor(nextPosition / 100);
-			timesPastZero += quotient;
-			nextPosition = nextPosition % 100;
-		} else if (nextPosition < 0) {
-			const quotient = Math.floor(nextPosition / -100);
-			if (initialPosition === 0) {
-				timesPastZero += quotient;
-			} else {
-				timesPastZero += 1 + quotient;
+		if (nextPosition < 0 || nextPosition > 99) {
+			while (nextPosition > 99) {
+				nextPosition -= 100;
+				timesPastZero += 1;
 			}
-			nextPosition = 100 + (nextPosition % 100);
+
+			if (nextPosition < 0) {
+				while (nextPosition < 0) {
+					nextPosition += 100;
+					timesPastZero += 1;
+				}
+				if (this.dialState.position === 0 && timesPastZero > 0) {
+					timesPastZero -= 1;
+				}
+				if (nextPosition === 0) {
+					timesPastZero += 1;
+				}
+			}
+		} else if (nextPosition === 0) {
+			timesPastZero += 1;
 		}
 
 		this.dialState.position = nextPosition;
