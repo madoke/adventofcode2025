@@ -1,12 +1,10 @@
 import { Direction, type DialState, type Instruction } from "./types.js";
 
-const INITIAL_DIAL_STATE = { position: 50 };
-
 export abstract class BasePuzzle {
-	constructor(protected dialState: DialState = INITIAL_DIAL_STATE) {}
+	constructor(protected dialState: DialState = { position: 50 }) {}
 
 	protected resetDial(): void {
-		this.dialState = INITIAL_DIAL_STATE;
+		this.dialState = { position: 50 };
 	}
 
 	protected rotateDial(instruction: Instruction): {
@@ -18,19 +16,22 @@ export abstract class BasePuzzle {
 			instruction.direction === Direction.Left
 				? this.dialState.position - instruction.distance
 				: this.dialState.position + instruction.distance;
+		const initialPosition = this.dialState.position;
 
-		if (nextPosition < 0 || nextPosition > 99) {
-			while (nextPosition > 99) {
-				nextPosition -= 100;
-				timesPastZero += 1;
-			}
-
-			while (nextPosition < 0) {
-				nextPosition += 100;
-				timesPastZero += 1;
-			}
-		} else if (nextPosition === 0) {
+		if (nextPosition === 0) {
 			timesPastZero += 1;
+		} else if (nextPosition > 99) {
+			const quotient = Math.floor(nextPosition / 100);
+			timesPastZero += quotient;
+			nextPosition = nextPosition % 100;
+		} else if (nextPosition < 0) {
+			const quotient = Math.floor(nextPosition / -100);
+			if (initialPosition === 0) {
+				timesPastZero += quotient;
+			} else {
+				timesPastZero += 1 + quotient;
+			}
+			nextPosition = 100 + (nextPosition % 100);
 		}
 
 		this.dialState.position = nextPosition;
