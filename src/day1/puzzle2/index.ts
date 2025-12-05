@@ -4,7 +4,7 @@ import { parseInstruction } from "../input-parsing.js";
 import { BasePuzzle } from "../BasePuzzle.js";
 
 // 0x434C49434B
-class Puzzle2 extends BasePuzzle {
+class Day1Puzzle2 extends BasePuzzle {
 	constructor(private password = 0) {
 		super();
 	}
@@ -28,4 +28,4 @@ class Puzzle2 extends BasePuzzle {
 	}
 }
 
-export { Puzzle2 };
+export { Day1Puzzle2 };

@@ -1,7 +1,8 @@
 import { program } from "commander";
-import { Puzzle1 } from "./day1/puzzle1/index.js";
-import { Puzzle2 } from "./day1/puzzle2/index.js";
-import Day2Puzzle1 from "./day2/puzzle1/index.js";
+import { Day1Puzzle1 } from "./day1/puzzle1/index.js";
+import { Day1Puzzle2 } from "./day1/puzzle2/index.js";
+import { Day2Puzzle1 } from "./day2/puzzle1/index.js";
+import { Day2Puzzle2 } from "./day2/puzzle2/index.js";
 
 program
 	.requiredOption("--day <number>", "Specify the day to run")
@@ -29,7 +30,10 @@ if (!inputFileName) {
 	process.exit(1);
 }
 
-const puzzles = [[new Puzzle1(), new Puzzle2()], [new Day2Puzzle1()]];
+const puzzles = [
+	[new Day1Puzzle1(), new Day1Puzzle2()],
+	[new Day2Puzzle1(), new Day2Puzzle2()],
+];
 const puzzle = puzzles[day - 1]?.[puzzleNumber - 1];
 
 if (!puzzle) {

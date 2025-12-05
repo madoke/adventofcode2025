@@ -3,7 +3,7 @@ import { processLineByLine } from "../../common/input-processing.js";
 import { parseInstruction } from "../input-parsing.js";
 import { BasePuzzle } from "../BasePuzzle.js";
 
-class Puzzle1 extends BasePuzzle {
+class Day1Puzzle1 extends BasePuzzle {
 	constructor(private password = 0) {
 		super();
 	}
@@ -29,4 +29,4 @@ class Puzzle1 extends BasePuzzle {
 	}
 }
 
-export { Puzzle1 };
+export { Day1Puzzle1 };

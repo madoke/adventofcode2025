@@ -4,20 +4,29 @@ import type { PuzzleInterface } from "../../common/PuzzleInterface.js";
 import BigNumber from "bignumber.js";
 import { parseRange } from "../input-parsing.js";
 
-export class Day2Puzzle1 implements PuzzleInterface {
+export class Day2Puzzle2 implements PuzzleInterface {
 	constructor(private sumOfInvalidIds: BigNumber = new BigNumber(0)) {}
 
 	private containsDuplicateDigits(id: string): boolean {
-		// exclude odd length IDs
-		if (id.length % 2 > 0) {
-			return false;
+		const splitIndex = Math.floor(id.length / 2);
+
+		for (let i = 1; i <= splitIndex; i += 1) {
+			if (id.length % i !== 0) {
+				continue; // skip if the id length is not divisible by chunk size
+			}
+
+			// for each number split the string into chunks of that size
+			const chunks: string[] = [];
+			for (let j = 0; j < id.length; j += i) {
+				chunks.push(id.slice(j, j + i));
+			}
+
+			// if all chunks are the same, return true
+			if (chunks.every((chunk) => chunk === chunks[0])) {
+				return true;
+			}
 		}
-
-		const splitIndex = id.length / 2;
-		const firstHalf = id.slice(0, splitIndex);
-		const secondHalf = id.slice(splitIndex);
-
-		return firstHalf === secondHalf;
+		return false;
 	}
 
 	private async onRange(range: string): Promise<void> {
@@ -26,7 +35,7 @@ export class Day2Puzzle1 implements PuzzleInterface {
 			const idStr = id.toString();
 			if (this.containsDuplicateDigits(idStr)) {
 				// For demonstration, we just log the valid ID
-				console.log(`Valid ID with duplicates: ${idStr}`);
+				// console.log(`Valid ID with duplicates: ${idStr}`);
 				this.sumOfInvalidIds = this.sumOfInvalidIds.plus(id);
 			}
 		}
@@ -42,4 +51,4 @@ export class Day2Puzzle1 implements PuzzleInterface {
 	}
 }
 
-export default Day2Puzzle1;
+export default Day2Puzzle2;
