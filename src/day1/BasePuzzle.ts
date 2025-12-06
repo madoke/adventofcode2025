@@ -1,6 +1,7 @@
+import type { PuzzleInterface } from "../common/PuzzleInterface.js";
 import { Direction, type DialState, type Instruction } from "./types.js";
 
-export abstract class BasePuzzle {
+export abstract class BasePuzzle implements PuzzleInterface {
 	constructor(protected dialState: DialState = { position: 50 }) {}
 
 	protected resetDial(): void {
@@ -43,4 +44,6 @@ export abstract class BasePuzzle {
 
 		return { nextPosition, timesPastZero };
 	}
+
+	abstract run(inputFileName: string): Promise<void>;
 }
