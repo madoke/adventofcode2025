@@ -1,6 +1,6 @@
-import { join } from "path";
 import type { PuzzleInterface } from "../../common/PuzzleInterface.js";
 import { processLineByLine } from "../../common/input-processing.js";
+import { BigNumber } from "bignumber.js";
 
 export class Day3Puzzle1 implements PuzzleInterface {
 	constructor(private totalJoltage = 0) {}
@@ -23,14 +23,11 @@ export class Day3Puzzle1 implements PuzzleInterface {
 		this.totalJoltage += maxJoltage;
 	}
 
-	async run(inputFileName: string): Promise<void> {
-		// Implementation for Day 3 Puzzle 1
-		console.log(`Running Day 3 Puzzle 1 with input file: ${inputFileName}`);
-		const filePath = join(process.cwd(), "src/day3/input", inputFileName);
-
-		await processLineByLine(filePath, (line) => this.processBatteryBank(line));
-
-		console.log(`TotalJoltage: ${this.totalJoltage}`);
+	public async run(inputFilePath: string): Promise<BigNumber> {
+		await processLineByLine(inputFilePath, (line) =>
+			this.processBatteryBank(line),
+		);
+		return new BigNumber(this.totalJoltage);
 	}
 }
 

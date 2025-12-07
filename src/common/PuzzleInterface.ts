@@ -1,3 +1,3 @@
 export interface PuzzleInterface {
-	run(inputFileName: string): Promise<void>;
+	run(inputFilePath: string): Promise<BigNumber>;
 }

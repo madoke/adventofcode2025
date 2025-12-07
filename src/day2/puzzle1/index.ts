@@ -1,4 +1,3 @@
-import { join } from "node:path";
 import { processByDelimiter } from "../../common/input-processing.js";
 import type { PuzzleInterface } from "../../common/PuzzleInterface.js";
 import BigNumber from "bignumber.js";
@@ -32,13 +31,11 @@ export class Day2Puzzle1 implements PuzzleInterface {
 		}
 	}
 
-	public async run(inputFileName: string): Promise<void> {
-		const filePath = join(process.cwd(), "src/day2/input", inputFileName);
-		console.log(`Reading file: ${filePath}`);
-		await processByDelimiter(filePath, ",", async (chunk: string) => {
+	public async run(inputFilePath: string): Promise<BigNumber> {
+		await processByDelimiter(inputFilePath, ",", async (chunk: string) => {
 			await this.onRange(chunk);
 		});
-		console.log(`Sum of invalid IDs: ${this.sumOfInvalidIds.toString()}`);
+		return this.sumOfInvalidIds;
 	}
 }
 

@@ -1,7 +1,7 @@
-import { join } from "node:path";
 import { processLineByLine } from "../../common/input-processing.js";
 import { parseInstruction } from "../input-parsing.js";
 import { BasePuzzle } from "../BasePuzzle.js";
+import { BigNumber } from "bignumber.js";
 
 // 0x434C49434B
 class Day1Puzzle2 extends BasePuzzle {
@@ -17,14 +17,10 @@ class Day1Puzzle2 extends BasePuzzle {
 		this.password += timesPastZero;
 	}
 
-	public async run(inputFileName: string): Promise<void> {
-		const filePath = join(process.cwd(), "src/day1/input", inputFileName);
-
+	public async run(inputFilePath: string): Promise<BigNumber> {
 		this.resetDial();
-
-		await processLineByLine(filePath, (line) => this.onRotation(line));
-
-		console.log(`Derived Password: ${this.password}`);
+		await processLineByLine(inputFilePath, (line) => this.onRotation(line));
+		return new BigNumber(this.password);
 	}
 }
 

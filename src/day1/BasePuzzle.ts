@@ -1,5 +1,6 @@
 import type { PuzzleInterface } from "../common/PuzzleInterface.js";
 import { Direction, type DialState, type Instruction } from "./types.js";
+import { type BigNumber } from "bignumber.js";
 
 export abstract class BasePuzzle implements PuzzleInterface {
 	constructor(protected dialState: DialState = { position: 50 }) {}
@@ -45,5 +46,5 @@ export abstract class BasePuzzle implements PuzzleInterface {
 		return { nextPosition, timesPastZero };
 	}
 
-	abstract run(inputFileName: string): Promise<void>;
+	abstract run(inputFilePath: string): Promise<BigNumber>;
 }

@@ -7,6 +7,7 @@ import Day3Puzzle1 from "./day3/puzzle1/index.js";
 import Day3Puzzle2 from "./day3/puzzle2/index.js";
 import Day4Puzzle2 from "./day4/puzzle2/index.js";
 import Day4Puzzle1 from "./day4/puzzle1/index.js";
+import { join } from "path";
 
 program
 	.requiredOption("--day <number>", "Specify the day to run")
@@ -46,5 +47,9 @@ if (!puzzle) {
 	console.error("Invalid day or puzzle number");
 	process.exit(1);
 }
-
-await puzzle.run(inputFileName);
+console.log(
+	`Running Day ${day} Puzzle ${puzzleNumber} with input file: ${inputFileName}`,
+);
+const inputFilePath = join(process.cwd(), `src/day${day}/input`, inputFileName);
+const result = await puzzle.run(inputFilePath);
+console.log(`Result: ${result.toString()}`);
