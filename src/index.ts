@@ -8,6 +8,8 @@ import Day3Puzzle2 from "./day3/puzzle2/index.js";
 import Day4Puzzle2 from "./day4/puzzle2/index.js";
 import Day4Puzzle1 from "./day4/puzzle1/index.js";
 import { join } from "path";
+import Day5Puzzle1 from "./day5/puzzle1/index.js";
+import Day5Puzzle2 from "./day5/puzzle2/index.js";
 
 program
 	.requiredOption("--day <number>", "Specify the day to run")
@@ -40,6 +42,8 @@ const puzzles = [
 	[new Day2Puzzle1(), new Day2Puzzle2()],
 	[new Day3Puzzle1(), new Day3Puzzle2()],
 	[new Day4Puzzle1(), new Day4Puzzle2()],
+	[new Day5Puzzle1(), new Day5Puzzle2()],
+	[new Day5Puzzle1(), new Day5Puzzle2()],
 ];
 const puzzle = puzzles[day - 1]?.[puzzleNumber - 1];
 

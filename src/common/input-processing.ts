@@ -1,5 +1,7 @@
 import { createReadStream } from "node:fs";
 import { createInterface } from "node:readline";
+import type { Range } from "./types.js";
+import { BigNumber } from "bignumber.js";
 
 export async function processLineByLine(
 	pathToFile: string,
@@ -45,3 +47,16 @@ export function processByDelimiter(
 		});
 	});
 }
+
+export const parseRange = (rangeStr: string): Range => {
+	const [startStr, endStr] = rangeStr.split("-");
+
+	if (!startStr || !endStr) {
+		throw new Error(`Invalid range format: ${rangeStr}`);
+	}
+
+	return {
+		start: new BigNumber(startStr),
+		end: new BigNumber(endStr),
+	};
+};

@@ -1,7 +1,9 @@
-import { processByDelimiter } from "../../common/input-processing.js";
+import {
+	parseRange,
+	processByDelimiter,
+} from "../../common/input-processing.js";
 import type { PuzzleInterface } from "../../common/PuzzleInterface.js";
 import BigNumber from "bignumber.js";
-import { parseRange } from "../input-parsing.js";
 
 export class Day2Puzzle2 implements PuzzleInterface {
 	constructor(private sumOfInvalidIds: BigNumber = new BigNumber(0)) {}
