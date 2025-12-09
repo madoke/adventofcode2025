@@ -51,8 +51,6 @@ export class Day6Puzzle1 implements PuzzleInterface {
 					throw new Error("Could not find operand");
 				}
 
-				console.log(operand);
-
 				if (j === 0) {
 					problemTotal = operand;
 				} else if (operator === Operator.Plus) {
