@@ -3,60 +3,80 @@ import type { PuzzleInterface } from "../../common/PuzzleInterface.js";
 import { BigNumber } from "bignumber.js";
 
 const SPLITTER = "^";
-const EMPTY = ".";
 const START = "S";
-const BEAM = "|";
 
 export class Day7Puzzle2 implements PuzzleInterface {
-	constructor(private mainfold: string[][] = []) {}
+	constructor(
+		private mainfold: string[] = [],
+		private cache: Map<string, BigNumber> = new Map(),
+	) {}
 
 	private async readLine(line: string): Promise<void> {
-		const newLine: string[] = [];
-		for (const char of line) {
-			newLine.push(char);
-		}
-		this.mainfold.push(newLine);
+		this.mainfold.push(line);
 	}
 
-	private processMainfold(): number {
-		let totalTimelines = 1;
-		for (let i = 1; i < this.mainfold.length; i++) {
-			const row = this.mainfold[i];
-			const previousRow = this.mainfold[i - 1];
-			if (!row || !previousRow) {
-				throw new Error("Could not find rows");
-			}
-			let alternativeTimelines = 0;
-			for (let j = 0; j < row.length; j++) {
-				if (previousRow[j] === START || previousRow[j] === BEAM) {
-					if (row[j] === EMPTY) {
-						row[j] = BEAM;
-					}
-					if (row[j] === SPLITTER) {
-						if (j > 0 && row[j - 1] === EMPTY) {
-							row[j - 1] = BEAM;
-							alternativeTimelines += 1;
-						}
-						if (j < row.length - 1 && row[j + 1] === EMPTY) {
-							row[j + 1] = BEAM;
-							alternativeTimelines += 1;
-						}
-					}
-				}
-			}
-			if (alternativeTimelines > 0) {
-				console.log(
-					`Row ${i} Alternative Timelines: ${alternativeTimelines}, Total Timelines: ${totalTimelines}`,
-				);
-				totalTimelines *= alternativeTimelines;
-			}
+	private processMainfold(): BigNumber {
+		const firstRow = this.mainfold[0];
+		if (!firstRow) {
+			throw new Error("Could not get first row");
 		}
-		return totalTimelines;
+
+		const startNodeIndex = firstRow.indexOf(START);
+		if (!startNodeIndex) {
+			throw new Error("Could not find start node");
+		}
+
+		return this.countTimelines(0, startNodeIndex);
 	}
 
-	private printMainfold(): void {
-		for (const line of this.mainfold) {
-			console.log(line.join(""));
+	private countTimelinesWithCache(
+		rowIndex: number,
+		colIndex: number,
+	): BigNumber {
+		const cacheKey = `${rowIndex},${colIndex}`;
+		const cachedResult = this.cache.get(cacheKey);
+		if (cachedResult) {
+			return cachedResult;
+		} else {
+			const result = this.countTimelines(rowIndex, colIndex);
+			this.cache.set(cacheKey, result);
+			return result;
+		}
+	}
+
+	private countTimelines(rowIndex: number, colIndex: number): BigNumber {
+		// Stop Condition
+		if (rowIndex === this.mainfold.length - 1) {
+			return new BigNumber(1);
+		}
+
+		const currentRow = this.mainfold[rowIndex];
+		if (!currentRow) {
+			throw new Error("Could not find current row");
+		}
+
+		const nextRowIndex = rowIndex + 1;
+		const nextRow = this.mainfold[nextRowIndex];
+		if (!nextRow) {
+			throw new Error("Could not find nextRow");
+		}
+
+		const nextNode = nextRow[colIndex];
+		if (!nextNode) {
+			throw new Error("Could not find next node");
+		}
+
+		if (nextNode === SPLITTER) {
+			// Process alternate realities
+			const nextColIndex = colIndex + 1;
+			const prevColIndex = colIndex - 1;
+
+			return new BigNumber(0)
+				.plus(this.countTimelinesWithCache(rowIndex, prevColIndex))
+				.plus(this.countTimelinesWithCache(rowIndex, nextColIndex));
+		} else {
+			// Move down 1 row
+			return this.countTimelinesWithCache(nextRowIndex, colIndex);
 		}
 	}
 
@@ -65,7 +85,6 @@ export class Day7Puzzle2 implements PuzzleInterface {
 			this.readLine(line),
 		);
 		const result = this.processMainfold();
-		this.printMainfold();
 		return new BigNumber(result);
 	}
 }
