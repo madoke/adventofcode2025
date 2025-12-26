@@ -25,4 +25,4 @@ class Day1Puzzle1 extends BasePuzzle {
 	}
 }
 
-export { Day1Puzzle1 };
+export default Day1Puzzle1;

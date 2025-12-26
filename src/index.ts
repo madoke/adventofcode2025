@@ -1,19 +1,21 @@
+import { join } from "path";
 import { program } from "commander";
-import { Day1Puzzle1 } from "./day1/puzzle1/index.js";
-import { Day1Puzzle2 } from "./day1/puzzle2/index.js";
-import { Day2Puzzle1 } from "./day2/puzzle1/index.js";
-import { Day2Puzzle2 } from "./day2/puzzle2/index.js";
+import Day1Puzzle1 from "./day1/puzzle1/index.js";
+import Day1Puzzle2 from "./day1/puzzle2/index.js";
+import Day2Puzzle1 from "./day2/puzzle1/index.js";
+import Day2Puzzle2 from "./day2/puzzle2/index.js";
 import Day3Puzzle1 from "./day3/puzzle1/index.js";
 import Day3Puzzle2 from "./day3/puzzle2/index.js";
 import Day4Puzzle2 from "./day4/puzzle2/index.js";
 import Day4Puzzle1 from "./day4/puzzle1/index.js";
-import { join } from "path";
 import Day5Puzzle1 from "./day5/puzzle1/index.js";
 import Day5Puzzle2 from "./day5/puzzle2/index.js";
 import Day6Puzzle1 from "./day6/puzzle1/index.js";
 import Day6Puzzle2 from "./day6/puzzle2/index.js";
 import Day7Puzzle1 from "./day7/puzzle1/index.js";
 import Day7Puzzle2 from "./day7/puzzle2/index.js";
+import Day8Puzzle2 from "./day8/puzzle2/index.js";
+import Day8Puzzle1 from "./day8/puzzle1/index.js";
 
 program
 	.requiredOption("--day <number>", "Specify the day to run")
@@ -49,6 +51,7 @@ const puzzles = [
 	[new Day5Puzzle1(), new Day5Puzzle2()],
 	[new Day6Puzzle1(), new Day6Puzzle2()],
 	[new Day7Puzzle1(), new Day7Puzzle2()],
+	[new Day8Puzzle1(), new Day8Puzzle2()],
 ];
 const puzzle = puzzles[day - 1]?.[puzzleNumber - 1];
 
